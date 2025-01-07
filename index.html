@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stop-watch</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+        integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <style>
+        * {
+      margin: 0;
+      box-sizing: border-box;
+    }
+
+        body{ font-family: system-ui, sans-serif;  background: linear-gradient(to right, rgb(134, 134, 134), #333333);}
+        .stop-watch {
+            max-width: 350px;
+            height: 472px;
+        
+            background-color: #ccc;
+            margin: auto;
+            border-radius: 40px;
+            margin-top: 50px;
+            box-shadow: 5px 5px  rgb(119, 118, 118);
+            padding: 20px 20px 0 20px;
+
+            /* background: #f5f5f5; */
+
+           
+        }
+
+        .circle {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            border: 7px solid rgb(236, 236, 239);
+            margin: auto;
+            margin-top: 50px;
+        }
+
+        .flex {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 50px;
+        }
+
+        :is(.reset, .start, .stop) {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: rgb(2, 56, 2);
+            display: grid;
+            place-items: center;
+            border: none;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        .time {
+            text-align: center;
+            font-size: x-large;
+            margin-top: 40%;
+            transform: translateY(-50%);
+        }
+
+        .milisec {
+            text-align: center;
+            font-size: x-large;
+            display: block;
+        }
+       
+
+
+        .start:active {
+            border: 2px solid red;
+        }
+
+        .stop:active {
+            border: 2px solid red;
+        }
+
+        .reset:active {
+            border: 2px solid red;
+        }
+
+        .watch {
+            text-align: center;
+            font-size: 40px;
+           
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="stop-watch">
+
+        <div class="watch">Stop Watch</div>
+
+        <div class="circle">
+
+            <div class="time"><span class="hide1">0</span><span class="hour">0</span>:<span class="hide2">0</span><span class="minute">0</span>:<span class="hide3">0</span><span class="second">0</span>
+            </div>
+            <div class="milisec"><span class="hide4">0</span><span class="milisecond">0</span></div>
+        </div>
+        <div class="flex">
+            <button class="reset" aria-label="reset">&#8634;</button>
+            <button class="start" aria-label="start">&#9654;</button>
+            <button class="stop" aria-label="stop">&#9209;</button>
+        </div>
+    </div>
+    <script>
+        "use strict";
+        let ms = 0;
+        let sec = 0;
+        let counter = 0;
+        let min = 0;
+        let hour = 0;
+        document.querySelector(".start").addEventListener("click", function () {
+            document.querySelector(".hide1").innerHTML="";
+                document.querySelector(".hide2").innerHTML="";
+                    document.querySelector(".hide3").innerHTML="";
+                    document.querySelector(".hide4").innerHTML="";
+
+            const start = setInterval(() => {
+
+
+                counter++;
+                if (counter == 5) {
+
+
+                    document.querySelector(".circle").style.borderTopColor = " rgb(1, 1, 33)";
+                }
+
+                else if (counter == 10) {
+
+                    document.querySelector(".circle").style.borderRightColor = "rgb(1, 1, 33)";
+                }
+
+                else if (counter == 15) {
+
+                    document.querySelector(".circle").style.borderBottomColor = " rgb(1, 1, 33)";
+                }
+
+                else if (counter == 20) {
+
+                    document.querySelector(".circle").style.borderLeftColor = " rgb(1, 1, 33)";
+                }
+
+
+
+
+                if (counter > 20) { counter = 0 }
+
+               
+                if (ms == 100) {                                            // 1 sec
+                    
+                    ms = 0;
+
+                     sec++;
+                 }
+
+
+                    if (sec ==60) {             // 1 min
+                        
+                        sec = 0;
+                        min++;
+                      
+                        
+                    }
+
+                   
+                        if (min == 60) {
+
+                            min = 0;
+                            hour++;
+                    
+                        }
+
+                 
+                    
+
+                    if(ms<10){
+                    document.querySelector(".milisecond").innerHTML = ` 0${ms++}`;
+                }
+                else{
+                    document.querySelector(".milisecond").innerHTML = ` ${ms++}`;
+                }
+
+                
+                
+                if(sec<10){
+                    document.querySelector(".second").innerHTML = ` 0${sec}`;
+                }
+                else{
+                    document.querySelector(".second").innerHTML = ` ${sec}`;
+                }
+                if(min<10){
+                    document.querySelector(".minute").innerHTML = ` 0${min}`;
+                }
+                else{
+                    document.querySelector(".minute").innerHTML = ` ${min}`;
+                }
+                if(hour<10){
+                    document.querySelector(".hour").innerHTML = ` 0${hour}`;
+                }
+                else{
+                    document.querySelector(".hour").innerHTML = ` ${hour}`;
+                }
+            }, 10);
+
+            // 100 times    
+
+
+
+            document.querySelector(".stop").addEventListener("click", function () {
+                clearInterval(start);
+            })
+
+            document.querySelector(".reset").addEventListener("click", function () {
+                ms = 0;
+                sec = 0;
+                min = 0;
+                hour = 0;
+                document.querySelector(".hour").innerHTML = `0${hour}`;
+                document.querySelector(".minute").innerHTML = `0${min}`;
+                document.querySelector(".second").innerHTML = `0${sec}`;
+                document.querySelector(".milisecond").innerHTML = `0${ms}`;
+               
+                document.querySelector(".circle").style.borderTopColor = "rgb(236, 236, 239)";
+                document.querySelector(".circle").style.borderRightColor = "rgb(236, 236, 239)";
+                document.querySelector(".circle").style.borderBottomColor = " rgb(236, 236, 239)";
+                document.querySelector(".circle").style.borderLeftColor = " rgb(236, 236, 239)";
+
+
+                clearInterval(start);
+            })
+
+        })
+
+
+
+
+    </script>
+
+</body>
+
+</html>
